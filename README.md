@@ -4,9 +4,12 @@
     <img alt="PolicyChecks Banner" src="docs/assets/banner-light-1.png" width="100%">
 </picture>
 
+<br>
+<br>
+
 <!-- prettier-ignore-start -->
 [![CI](https://github.com/reponomics/PolicyChecks/actions/workflows/ci.yml/badge.svg)](https://github.com/reponomics/PolicyChecks/actions/workflows/ci.yml)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/reponomics/PolicyChecks/badge)](https://scorecard.dev/viewer/?uri=github.com/reponomics/PolicyChecks)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/reponomics/PolicyChecks/badge)](https://scorecard.dev/viewer/?uri=github.com/reponomics/PolicyChecks)
 [![Install the GitHub App](https://img.shields.io/badge/GitHub%20App-install-blue?logo=github)](https://github.com/apps/policychecks)
 <!-- prettier-ignore-end -->
 
@@ -114,9 +117,9 @@ flowchart LR
 Each badge maps one GitHub API field to one status. Take SHA pinning: GitHub lets an administrator require that every Action in a workflow is pinned to a full-length commit SHA, and reports that as `sha_pinning_required` on the Actions permissions endpoint.
 
 <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/full-sha-pinned-setting-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="docs/assets/full-sha-pinned-setting-light.png">
-    <img alt="The GitHub repository setting that requires Actions to be pinned to a full-length commit SHA" src="docs/assets/full-sha-pinned-setting-light.png" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/setting-vs-badge-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="docs/assets/setting-vs-badge-light.png">
+    <img alt="Left: the admin-only GitHub repository setting that requires Actions to be pinned to a full-length commit SHA. Right: the public PolicyChecks badge that mirrors it." src="docs/assets/setting-vs-badge-light.png" width="100%">
 </picture>
 
 PolicyChecks reads that field and renders the result. It never opens a workflow file to see whether the Actions in the repository are _actually_ pinned — that's a different question, and a different kind of tool answers it. See [Scope](#scope).
@@ -146,7 +149,7 @@ GET /github/{owner}/{repo}/{badge-id}/details.json   # The evaluation record beh
 GET /github/{owner}/{repo}/info.json                 # All supported checks for one repository
 ```
 
-A request for an unrecognized badge ID returns `404` with `{"error": "unsupported_badge"}`.
+A request for an unrecognized badge ID returns `404` with `{"error": "unsupported_badge", "badgeId": "..."}`.
 
 `details.json` is the one worth knowing about. It names the endpoint and fields behind the result, so anyone can check a badge against its source:
 
@@ -177,7 +180,7 @@ $ curl https://policychecks.reponomics.org/github/reponomics/PolicyChecks/sha-pi
 
 <!-- prettier-ignore-start -->
 > [!NOTE]
-> `info.json` returns every supported check for a repository today, but treat it as unstable. [ADR 0001](docs/adr/0001-badge-publication-consent.md) proposes removing it and letting maintainers choose which checks are published instead. That direction is accepted but not implemented.
+> `info.json` returns every supported check for a repository today, but treat it as unstable. [ADR 0001](docs/adr/0001-badge-publication-consent.md) proposed removing it and letting maintainers choose which checks are published instead. That part of the ADR was superseded and will not be implemented.
 <!-- prettier-ignore-end -->
 
 ## Permissions and data access
@@ -236,7 +239,7 @@ Scorecard is the more rigorous supply-chain tool. It reads the workflow files an
 | [PRIVACY.md](PRIVACY.md) | What the service processes and what it stores |
 | [SUPPORT.md](SUPPORT.md) | Where to ask about a specific repository's badge |
 | [docs/operations.md](docs/operations.md) | Running the service: caching, rate-limit policy, deployment, monitoring |
-| [ADR 0001](docs/adr/0001-badge-publication-consent.md) and [its plan](docs/plans/0001-readme-publication-gate.md) | The accepted but unimplemented proposal to let maintainers choose which checks are published |
+| [ADR 0001](docs/adr/0001-badge-publication-consent.md) and [its plan](docs/plans/deferred/0001-readme-publication-gate.md) | The superseded proposal to let maintainers choose which checks are published |
 
 ## Contributing
 
